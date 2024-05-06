@@ -1,1 +1,81 @@
 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulação da Válvula YPVS</title>
+<style>
+  .container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Simulação da Válvula YPVS</h2>
+  <p>Fundo:</p>
+  <p>O sincronismo das válvulas (admissão, escape e limpeza) é um fator muito importante que determina as características de um motor 2 tempos. Em geral, um sincronismo rápido do escape significa que o motor terá um bom desempenho na faixa de alta velocidade e alta potência, enquanto um sincronismo lento significa que o motor terá bom torque em baixas rotações. No entanto, um piloto de corridas ou motocross que precisa ter bom desempenho especialmente na faixa de alta potência também enfrentará muitas outras situações, como sair de uma curva, quando precisará de alto torque e bom desempenho em médias rotações.</p>
+  <p>O YPVS atende a essas duas necessidades.</p>
+  
+  <p>Operação:</p>
+  <p>O YPVS emprega uma válvula em forma de espiral localizada na parte superior da janela de escape do cilindro. Esta válvula é operada por meio de um cabo a partir de uma unidade de controle mecânica informatizada que detecta a frequência de ignição e determina o ângulo de virada necessário da válvula. Dessa forma, a válvula move-se para cima e para baixo para fora da janela de escape. Isso significa que o sincronismo do escape é constantemente ajustado de acordo com o nível de RPM, proporcionando assim um sincronismo mais eficaz em toda a faixa de velocidade.</p>
+  <p>Os pilotos de produção TZ empregam um sistema de controle mecânico, mas o piloto de fábrica YZR500, a primeira máquina Yamaha a adotar o YPVS, apresenta um sistema de controle elétrico para ajustar o sincronismo do escape por meio de um pulso de ignição, como fazem a maioria das motocicletas esportivas atuais.</p>
+  
+  <p>Os pilotos de produção TZ tinham um sistema puramente mecânico, acionado pelo virabrequim, a partir de 1980. Em 1983, houve a mudança para eletrônica, com o piloto de fábrica de GP YZR500 e também as máquinas de produção RD250LC e RD350LC que agora adotavam o sistema de válvula de potência também, imediatamente na versão eletrônica. No cilindrada de 350 cc, o desempenho aumentou de 50 para 60 HP em comparação com o modelo anterior usando essa tecnologia!</p>
+  
+  <p>Resultados:</p>
+  <p>Um sincronismo de escape mais eficaz é dado em toda a faixa de velocidade, trazendo assim alto desempenho e boa economia de combustível juntos.</p>
+
+  <button id="rpmDownButton">Diminuir RPM</button>
+  <button id="rpmUpButton">Aumentar RPM</button>
+  <p id="rpmDisplay">RPM: 0</p>
+  <button id="angleOpenButton">Abrir Válvula</button>
+  <button id="angleCloseButton">Fechar Válvula</button>
+  <p id="angleDisplay">Ângulo da Válvula: 0 graus</p>
+</div>
+
+<script>
+  let rpm = 0;
+  let angle = 0;
+
+  function updateRPMDisplay() {
+    document.getElementById("rpmDisplay").innerText = "RPM: " + rpm;
+  }
+
+  function updateAngleDisplay() {
+    document.getElementById("angleDisplay").innerText = "Ângulo da Válvula: " + angle + " graus";
+  }
+
+  document.getElementById("rpmDownButton").addEventListener("click", function() {
+    if (rpm > 0) {
+      rpm -= 100;
+      updateRPMDisplay();
+    }
+  });
+
+  document.getElementById("rpmUpButton").addEventListener("click", function() {
+    rpm += 100;
+    updateRPMDisplay();
+  });
+
+  document.getElementById("angleOpenButton").addEventListener("click", function() {
+    angle = 0;
+    updateAngleDisplay();
+  });
+
+  document.getElementById("angleCloseButton").addEventListener("click", function() {
+    angle = 180;
+    updateAngleDisplay();
+  });
+</script>
+
+</body>
+</html>
