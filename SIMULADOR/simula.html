@@ -3,58 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulação da Válvula YPVS</title>
+<title>Simulação do YPVS</title>
 <style>
+  body {
+    font-family: Arial, sans-serif;
+  }
   .container {
-    text-align: justify;
     margin: 20px;
   }
   input[type="range"] {
     width: 80%;
-    margin-bottom: 20px;
+  }
+  #result {
+    margin-top: 20px;
   }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Simulação da Válvula YPVS</h2>
-  <p><strong>Funcionamento de um motor de dois tempos:</strong></p>
-  <p>Um tempo é a ação de um pistão percorrendo todo o comprimento de seu cilindro. Em um motor de dois tempos, um dos dois tempos combina o tempo de admissão e o tempo de compressão, enquanto o outro tempo combina o tempo de combustão e o tempo de escape.</p>
-  <!-- Mais explicações sobre o funcionamento do motor de dois tempos... -->
+  <h2>Simulação do YPVS</h2>
+  <p>Selecione a rotação do motor (RPM):</p>
+  <input type="range" min="0" max="10000" value="0" id="rpmSlider" oninput="simulateYPVS()">
+  <br><br>
+  <p>Informe o RPM de abertura da válvula:</p>
+  <input type="number" id="rpmInput" value="5500" onchange="simulateYPVS()">
+</div>
 
-  <p><strong>Sistemas de design de engenharia:</strong></p>
-  <p>O único componentes móveis dentro dos motores de dois tempos simples são o virabrequim, a biela e o pistão. No entanto, é a mesma simplicidade no design que faz com que um motor de dois tempos seja menos eficiente em termos de combustível e produza altos níveis específicos de emissões indesejadas de gases de escape.</p>
-  <!-- Mais explicações sobre sistemas de válvulas de potência e suas melhorias de design... -->
-
-  <p><strong>YPVS - Sistema de Válvula de Potência Yamaha:</strong></p>
-  <p>Os engenheiros da Yamaha perceberam que ao alterar a altura do canal de escape, poderiam efetivamente mudar a entrega de potência do motor, tendo assim potência e torque ótimos em toda a faixa de rotação, e foi assim que nasceu o YPVS.</p>
-  <!-- Mais explicações sobre o YPVS... -->
-
-  <label for="rpmRange">RPM:</label>
-  <input type="range" id="rpmRange" min="0" max="10000" value="0" step="100">
-  <p id="angleDisplay">Ângulo da Válvula: 0 graus</p>
+<div class="container">
+  <h2>Resultados da Simulação</h2>
+  <p id="result"></p>
 </div>
 
 <script>
-  let rpm = 0;
-  let angle = 0;
+  function simulateYPVS() {
+    // Simulação do YPVS
+    const rpm = document.getElementById("rpmSlider").value;
+    const openingRPM = document.getElementById("rpmInput").value;
+    let angle = 0;
 
-  function updateAngleDisplay() {
-    document.getElementById("angleDisplay").innerText = "Ângulo da Válvula: " + angle + " graus";
+    if (rpm < 3000) {
+      angle = 180;
+    } else if (rpm >= 3000 && rpm < openingRPM) {
+      angle = map(rpm, 3000, openingRPM, 180, 0);
+    } else {
+      angle = 0;
+    }
+
+    // Exibir os resultados na tela
+    document.getElementById("result").innerHTML = "<strong>RPM:</strong> " + rpm + "<br><strong>RPM de Abertura:</strong> " + openingRPM + "<br><strong>Ângulo de Abertura:</strong> " + angle + " graus";
   }
 
-  document.getElementById("rpmRange").addEventListener("input", function() {
-    rpm = parseInt(this.value);
-    if (rpm >= 5500) {
-      angle = 0;
-    } else {
-      // Lógica para calcular o ângulo da válvula com base no RPM
-      // Esta é uma lógica de exemplo, você pode ajustá-la conforme necessário
-      angle = (rpm / 5500) * 180; // A abertura da válvula aumenta linearmente até 5500 RPM
-    }
-    updateAngleDisplay();
-  });
+  // Função de mapeamento para ajustar os valores
+  function map(value, x1, y1, x2, y2) {
+    return ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
+  }
 </script>
 
 </body>
