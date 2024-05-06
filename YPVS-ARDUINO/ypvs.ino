@@ -1,13 +1,16 @@
 #include <Servo.h>
-
+int rpminicio=3000;
+  
 Servo servoMotor; // Criando um objeto servoMotor
 int potPin = A0; // Pino analógico conectado ao potenciômetro
 int rpm; // Variável para armazenar a leitura do potenciômetro
 int servoPin = 9; // Pino digital conectado ao servo motor
+int ledPin= 13;
 
 void setup() {
   servoMotor.attach(servoPin); // Inicializando o servo motor
   Serial.begin(9600); // Inicializando a comunicação serial
+  pinMode(ledPin, OUTPUT); 
 }
 
 void loop() {
@@ -26,11 +29,13 @@ void loop() {
 
 int calculateAngle(int rpm) {
   if (rpm < 3000) {
+    digitalWrite(ledPin, LOW);  
     return 0; // Válvula fechada para rotações abaixo de 3000 RPM
-  } else if (rpm >= 3000 && rpm < 5500) {
-    return map(rpm, 3000, 5500, 180, 0); // Mapeando a rotação para o ângulo de abertura entre 180 e 0 graus
+  } else if (rpm >= 3000 && rpm < 6000) {
+    digitalWrite(ledPin, HIGH); 
+    return map(rpm, 3000, 6000, 0, 180); // Mapeando a rotação para o ângulo de abertura entre 0 e 180 graus
   } else {
-    return 180; // Válvula totalmente aberta para rotações acima de 5500 RPM
+    digitalWrite(ledPin, HIGH);  
+    return 180; // Válvula totalmente aberta para rotações acima de 6000 RPM
   }
 }
-
